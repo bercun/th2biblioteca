@@ -11,14 +11,21 @@ function getConnection(): PDO
         return $pdo;
     }
 
-    $host = 'localhost';
-    $dbname = 'biblioteca';
-    $username = 'root';
-    $password = '';
+    // Settings: environment variables > config/db.local.php (git-ignored) > defaults
+    $local = is_file(__DIR__ . '/db.local.php') ? require __DIR__ . '/db.local.php' : [];
+
+    $host = getenv('DB_HOST') ?: ($local['host'] ?? 'localhost');
+    $port = getenv('DB_PORT') ?: ($local['port'] ?? '3306');
+    $dbname = getenv('DB_NAME') ?: ($local['dbname'] ?? 'biblioteca');
+    $username = getenv('DB_USER') ?: ($local['username'] ?? 'root');
+    $password = getenv('DB_PASS');
+    if ($password === false) {
+        $password = $local['password'] ?? '';
+    }
 
     try {
         $pdo = new PDO(
-            "mysql:host={$host};dbname={$dbname};charset=utf8mb4",
+            "mysql:host={$host};port={$port};dbname={$dbname};charset=utf8mb4",
             $username,
             $password
         );

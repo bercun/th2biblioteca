@@ -186,7 +186,7 @@ class RepoBook
                 (:title, :author, :isbn, :description, :category_id, :image, :bonus, :price)'
         );
 
-        $book->image = Book::resolveImage($book->image);
+        $book->image = Book::normalizeImage($book->image);
 
         $stmt->execute([
             'title' => $book->title,
@@ -224,7 +224,7 @@ class RepoBook
              WHERE id = :id'
         );
 
-        $book->image = Book::resolveImage($book->image);
+        $book->image = Book::normalizeImage($book->image);
 
         $stmt->execute([
             'title' => $book->title,

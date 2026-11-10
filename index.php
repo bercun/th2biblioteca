@@ -7,6 +7,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/config/paths.php';
+
 $routes = [
     'home' => 'front/index.html',
 
@@ -76,7 +78,8 @@ function serveHome(): void
     }
 
     header('Content-Type: text/html; charset=utf-8');
-    readfile($view);
+    $html = (string) file_get_contents($view);
+    echo str_replace('"/biblioteca/', '"' . basePath() . '/', $html);
 }
 
 /**

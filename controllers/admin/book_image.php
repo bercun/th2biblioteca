@@ -102,7 +102,7 @@ function saveUploadedBookImage(?array $file): ?string
     }
 
     //Return image path
-    return '/biblioteca/front/assets/images/' . $filename;
+    return 'front/assets/images/' . $filename;
 }
 
 //Resolve book image path
@@ -118,5 +118,5 @@ function resolveBookImagePath(string $image, ?array $file): string
     }
 
     //Return image path
-    return Book::resolveImage($image);
+    return Book::normalizeImage($image);
 }

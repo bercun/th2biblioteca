@@ -1,8 +1,10 @@
 <?php
 
+require_once __DIR__ . '/../config/paths.php';
+
 class Book implements JsonSerializable
 {
-    public const DEFAULT_IMAGE = '/biblioteca/front/assets/images/bookDefault.png';
+    public const DEFAULT_IMAGE_PATH = 'front/assets/images/bookDefault.png';
 
     public ?int $id = null;
     public string $title = '';
@@ -11,30 +13,53 @@ class Book implements JsonSerializable
     public string $description = '';
     public ?int $category_id = null;
     public ?string $season = null;
-    public string $image = self::DEFAULT_IMAGE;
+    public string $image = self::DEFAULT_IMAGE_PATH;
     public int $bonus = 1;
     public ?float $price = 1.00;
     public ?float $average_rating = null;
     public int $reviews_count = 0;
 
-    public static function resolveImage(?string $image): string
+    /** Portable value stored in the DB (no host/base prefix). */
+    public static function normalizeImage(?string $image): string
     {
         $image = trim((string) $image);
 
         if ($image === '') {
-            return self::DEFAULT_IMAGE;
+            return self::DEFAULT_IMAGE_PATH;
+        }
+
+        $base = basePath();
+        if ($base !== '' && str_starts_with($image, $base . '/front/')) {
+            $image = substr($image, strlen($base) + 1);
+        }
+
+        if (str_starts_with($image, '/biblioteca/front/')) {
+            $image = substr($image, strlen('/biblioteca/'));
+        }
+
+        if (str_starts_with($image, '/front/')) {
+            $image = substr($image, 1);
         }
 
         if (str_starts_with($image, '../front/')) {
-            return '/biblioteca/' . substr($image, 3);
-        }
-
-        if (str_starts_with($image, 'front/')) {
-            return '/biblioteca/' . $image;
+            $image = substr($image, 3);
         }
 
         return $image;
     }
+
+    public static function resolveImage(?string $image): string
+    {
+        $image = self::normalizeImage($image);
+
+        if (str_starts_with($image, 'front/')) {
+            return basePath() . '/' . $image;
+        }
+
+        return $image;
+    }
+
+
 
     public function toArray(): array
     {

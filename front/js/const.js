@@ -1,11 +1,19 @@
 //REST API constants for the front and admin pages
 
-const API_BASE = "/biblioteca/index.php?route=";
+// Project base path derived from this script's URL (<base>/front/js/const.js)
+const BASE_PATH = (() => {
+    const src = document.currentScript ? document.currentScript.src : "";
+    const path = src ? new URL(src, window.location.href).pathname : "";
+    const index = path.lastIndexOf("/front/js/");
+    return index >= 0 ? path.substring(0, index) : "";
+})();
+
+const API_BASE = `${BASE_PATH}/index.php?route=`;
 const ADMIN_API = `${API_BASE}admin`;
 
-const FRONT_URL = "/biblioteca/index.php";
-const ADMIN_URL = "/biblioteca/admin/index.php";
-const BOOK_DEFAULT_IMAGE = "/biblioteca/front/assets/images/bookDefault.png";
+const FRONT_URL = `${BASE_PATH}/index.php`;
+const ADMIN_URL = `${BASE_PATH}/admin/index.php`;
+const BOOK_DEFAULT_IMAGE = `${BASE_PATH}/front/assets/images/bookDefault.png`;
 
 const API = {
     register: `${API_BASE}users/register`,

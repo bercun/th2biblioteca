@@ -15,7 +15,7 @@
             <h1>Admin Dashboard</h1>
             <div class="admin-header-actions">
                 <span id="admin-user-label"></span>
-                <a class="admin-link" id="admin-library-link" href="/biblioteca/index.php">Library</a>
+                <a class="admin-link" id="admin-library-link" href="../index.php">Library</a>
                 <button type="button" id="admin-logout">Log Out</button>
             </div>
         </div>
