@@ -6,6 +6,17 @@ El proyecto no tiene dependencias externas: no usa Composer, npm ni ningún paqu
 
 ---
 
+
+## users
+
+admin@test.com
+1234567890
+
+test2@test.com
+12345678
+(walter)
+
+
 ## 1. Lenguajes y tecnologías
 
 | Capa | Tecnología | Notas |
